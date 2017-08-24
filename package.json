@@ -5,11 +5,12 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha",
-    "start": "node server.js"
+    "start": "node ./src/server.js"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.12.4",
+    "mongoose": "^4.11.8",
     "morgan": "^1.7.0",
     "uuid": "^2.0.3"
   },
