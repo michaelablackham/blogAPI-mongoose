@@ -1,10 +1,9 @@
 {
   "name": "blogapi",
   "version": "1.0.0",
-  "description": "thinkful drill for a blog api",
+  "description": "thinkful drill for a blog api using mongoose",
   "main": "server.js",
   "scripts": {
-    "test": "mocha",
     "start": "node ./src/server.js"
   },
   "dependencies": {
@@ -17,19 +16,6 @@
   "engines": {
     "node": "4.4.3"
   },
-  "author": "",
-  "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/michaelablackham/blogAPI.git"
-  },
-  "bugs": {
-    "url": "https://github.com/michaelablackham/blogAPI/issues"
-  },
-  "homepage": "https://github.com/michaelablackham/blogAPI#readme",
-  "devDependencies": {
-    "chai": "^4.1.1",
-    "chai-http": "^3.0.0",
-    "mocha": "^3.5.0"
-  }
+  "author": "Michaela Blackham",
+  "license": "ISC"
 }

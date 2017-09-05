@@ -1,3 +1,6 @@
+//We want to break up info into a config file
+// only items releveant to environment variables
+
 exports.DATABASE_URL = process.env.DATABASE_URL ||
                        global.DATABASE_URL ||
                       'mongodb://localhost/blog_app';
