@@ -8,9 +8,6 @@ const morgan = require('morgan'); //Logger middleware
 const {PORT, DATABASE_URL} = require('./config');
 const {Post} = require('./models');
 
-
-//ROUTING
-// const blogPostsRouter = require('./blogPosts');
 //calling/activting above constants - call node/express
 const app = express();
 
@@ -21,7 +18,6 @@ app.use(morgan('common'));
 
 // make Mongoose use built in es6 promises
 mongoose.Promise = global.Promise;
-// app.use('/blog-posts', blogPostsRouter);
 
 app.get('/posts', (req, res) => {
   Post
