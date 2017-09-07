@@ -24,7 +24,16 @@ mongoose.Promise = global.Promise;
 // app.use('/blog-posts', blogPostsRouter);
 
 app.get('/posts', (req, res) => {
-  res.json(Post.get());
+  Post
+    .find()
+    .exec()
+    .then(posts => {
+      res.json(posts.map(post => post.apiRepr()));
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({error: 'something went terribly wrong'});
+    });
 });
 
 
