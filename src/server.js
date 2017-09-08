@@ -3,9 +3,16 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose'); //NEED TO CALL MONGOOSE
 const morgan = require('morgan'); //Logger middleware
+const path = require('path');
 
 // config.js hold important info for PORT and DATABASE_URL
-const {PORT, DATABASE_URL} = require('./config');
+let {PORT, DATABASE_URL} = require('./config');
+
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
+
+console.log(process.env.DATABASE_URL);
+DATABASE_URL = process.env.DATABASE_URL || DATABASE_URL;
+
 const {Post} = require('./models');
 
 //calling/activting above constants - call node/express
@@ -19,13 +26,31 @@ app.use(morgan('common'));
 // make Mongoose use built in es6 promises
 mongoose.Promise = global.Promise;
 
+//Get all posts
+//Make request to /posts
 app.get('/posts', (req, res) => {
   Post
     .find()
-    .exec()
     .then(posts => {
-      res.json(posts.map(post => post.apiRepr()));
+      res.json(posts);
     })
+    //if there is an error catch the promise and send a 500 status
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({error: 'something went terribly wrong'});
+    });
+});
+
+//get a post just by the ID
+//make request to post/id number
+app.get('/posts/:id', (req, res) => {
+  Post
+    //make sure to just find by ID of the params of the request made
+    .findById(req.params.id)
+    .then(posts => {
+      res.json(posts);
+    })
+    //if there is an error catch the promise and send a 500 status
     .catch(err => {
       console.error(err);
       res.status(500).json({error: 'something went terribly wrong'});
