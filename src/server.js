@@ -88,12 +88,34 @@ app.post('/posts', (req, res) => {
    });
 });
 
+//DELETE request
 app.delete('/posts/:id', (req, res) => {
   Post
     .findByIdAndRemove(req.params.id)
     .then(() => res.status(204).end() )
 });
 
+//PUT request
+app.put('/posts/:id', (req, res) => {
+  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+    res.status(400).json({
+      error: 'Request path id and request body id values must match'
+    });
+  }
+
+  const updated = {};
+  const updateableFields = ['title', 'content', 'author'];
+  updateableFields.forEach(field => {
+    if (field in req.body) {
+      updated[field] = req.body[field];
+    }
+  });
+
+  Post
+    .findByIdAndUpdate(req.params.id, {$set: updated}, {new: true})
+    .then(updatedPost => res.status(201).json(updatedPost))
+    .catch(err => res.status(500).json({message: 'Something went wrong'}));
+});
 
 
 //used for both runServer and closeServer
