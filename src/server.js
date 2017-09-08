@@ -74,7 +74,7 @@ app.post('/posts', (req, res) => {
       return res.status(400).send(message);
     }
   }
-
+//create the json data for the object we just created
   Post
    .create({
      title: req.body.title,
@@ -86,6 +86,12 @@ app.post('/posts', (req, res) => {
      console.error(err);
      res.status(500).json({error: 'something went terribly wrong'});
    });
+});
+
+app.delete('/posts/:id', (req, res) => {
+  Post
+    .findByIdAndRemove(req.params.id)
+    .then(() => res.status(204).end() )
 });
 
 
