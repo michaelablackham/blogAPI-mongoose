@@ -1,5 +1,7 @@
 //Required modules and middleware etc
 const bodyParser = require('body-parser');
+//required for posts
+const jsonParser = bodyParser.json();
 const express = require('express');
 const mongoose = require('mongoose'); //NEED TO CALL MONGOOSE
 const morgan = require('morgan'); //Logger middleware
@@ -55,6 +57,35 @@ app.get('/posts/:id', (req, res) => {
       console.error(err);
       res.status(500).json({error: 'something went terribly wrong'});
     });
+});
+
+//post request to add new items to feed of blog posts
+app.post('/posts', (req, res) => {
+  //require certain fields
+  const requiredFields = ['title','content','author'];
+  //loop through each required field
+  for (let i=0; i<requiredFields.length; i++) {
+    const field = requiredFields[i];
+    //if current require field item is not within the request body
+    if(!(field in req.body)) {
+      // console/return an error
+      const message = `Missing \`${field}\` in request body`
+      console.error(message);
+      return res.status(400).send(message);
+    }
+  }
+
+  Post
+   .create({
+     title: req.body.title,
+     content: req.body.content,
+     author: req.body.author
+   })
+   .then(posts => res.status(201).json(posts))
+   .catch(err => {
+     console.error(err);
+     res.status(500).json({error: 'something went terribly wrong'});
+   });
 });
 
 
